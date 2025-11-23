@@ -13,8 +13,8 @@ steps:
 
   - name: "gke-deploy"
     args:
-      - "--cluster=gcp-devops-cluster"
-      - "--location=us-central1-c"
+      - "--cluster=k8s-devops"
+      - "--location=us-central1-a"
       - "--manifest=gke-app.yaml"
       - "--image=us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA"
       - "--namespace=gcp-devops-prod"
