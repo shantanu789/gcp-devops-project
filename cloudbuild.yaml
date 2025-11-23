@@ -9,4 +9,4 @@ steps:
   #   args: ['push', 'gcr.io/$PROJECT_ID/gcp-devops' ]
 
 images: 
-  - 'gcr.io/$PROJECT_ID/gcp-devops''
+  - 'gcr.io/$PROJECT_ID/gcp-devops'
