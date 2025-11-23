@@ -1,9 +1,9 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/my-app', '.' ]
+  - name: 'docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project', '.' ]
   
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/my-app' ]
+  - name: 'docker'
+    args: ['push', 'us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project' ]
 
 images: 
-  - 'gcr.io/$PROJECT_ID/my-app'
+  - 'us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project'
