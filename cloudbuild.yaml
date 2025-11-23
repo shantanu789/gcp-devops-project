@@ -2,7 +2,7 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 substitutions:
-  _IMAGE_NAME: "us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project/my-app"
+  _IMAGE_NAME: "us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project-dev/my-app"
 
 steps:
   # 1. Build Docker image
@@ -31,7 +31,7 @@ steps:
       - '-l=us-central1-a'
       - '-f=gke.yaml'
       - '-i=${_IMAGE_NAME}:$SHORT_SHA'
-      - '-n=gcp-devops-prod'
+      - '-n=gcp-devops-dev'
 
 images:
   - ${_IMAGE_NAME}:$SHORT_SHA
