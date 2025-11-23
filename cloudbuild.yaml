@@ -2,14 +2,33 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 steps:
-  - name: 'docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA', '.' ]
-  
-  # - name: 'docker'
-  #   args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA' ]
-  # - name: 'docker'
-  #   args: ['login', '-u', 'oauth2accesstoken', '-p', '$(gcloud auth print-access-token)', 'https://us-central1-docker.pkg.dev']
+  # 1. Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    env:
+      - 'DOCKER_API_VERSION=1.41'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
+      - '.'
 
+  # 2. Push the image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    env:
+      - 'DOCKER_API_VERSION=1.41'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
 
-images: 
+  # 3. Deploy to GKE
+  - name: 'gcr.io/cloud-builders/gke-deploy'
+    args:
+      - 'run'
+      - '-c=k8s-devops'
+      - '-l=us-central1-a'
+      - '-f=gke-app.yaml'
+      - '-i=us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
+      - '-n=gcp-devops-prod'
+
+images:
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
