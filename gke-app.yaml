@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gcp-devops-gke
+  namespace: gcp-devops-prod
 spec:
   replicas: 2
   selector:
@@ -14,14 +15,14 @@ spec:
     spec:
       containers:
       - name: gcp-devops-gke
-        image: us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project/my-app:latest
+        image: us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA
         resources:
           limits:
             memory: "256Mi"
-            cpu: "200m"
+            cpu: "100m"
           requests:
             memory: "128Mi"
-            cpu: "100m"
+            cpu: "50m"
         ports:
         - containerPort: 5000
         env:
@@ -33,7 +34,9 @@ kind: Service
 metadata:
   name: gcp-devops-gke-service
   namespace: gcp-devops-prod
-  labels: app,kubernetes.io/managed-by: gke-deploy
+  labels:
+    app: gcp
+    kubernetes.io/managed-by: gke-deploy
 spec:
   type: LoadBalancer
   selector:
