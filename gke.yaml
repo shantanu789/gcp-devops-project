@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: gcp-devops-gke
-        image: us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project/my-app
+        image: us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project/my-app:$SHORT_SHA
         resources:
           limits:
             memory: "256Mi"
