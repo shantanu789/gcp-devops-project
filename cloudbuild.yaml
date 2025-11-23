@@ -23,11 +23,11 @@ steps:
   # 3. Deploy to GKE
   - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
-      - '--cluster=k8s-devops'
-      - '--location=us-central1-a'
-      - '--manifest=gke-app.yaml'
-      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
-      - '--namespace=gcp-devops-prod'
+      - '-c=k8s-devops'
+      - '-l=us-central1-a'
+      - '-f=gke-app.yaml'
+      - '-i=us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
+      - '-n=gcp-devops-prod'
 
 images:
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
