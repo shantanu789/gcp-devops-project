@@ -1,7 +1,9 @@
 options:
   logging: CLOUD_LOGGING_ONLY
+
 substitutions:
   _IMAGE_NAME: "us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project/my-app"
+
 steps:
   # 1. Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
@@ -28,7 +30,7 @@ steps:
       - '-c=k8s-devops'
       - '-l=us-central1-a'
       - '-f=gke-app.yaml'
-      - '-i=us-central1-docker.pkg.dev/my-project-9303-1756152833853/gcp-devops-project/my-app:latest'
+      - '-i=${_IMAGE_NAME}:$SHORT_SHA'
       - '-n=gcp-devops-prod'
 
 images:
