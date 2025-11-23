@@ -1,6 +1,7 @@
 options:
   logging: CLOUD_LOGGING_ONLY
-
+substitutions:
+  _IMAGE_NAME: "us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app"
 steps:
   # 1. Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
@@ -9,7 +10,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
+      - '${_IMAGE_NAME}:$SHORT_SHA'
       - '.'
 
   # 2. Push the image to Artifact Registry
@@ -18,7 +19,7 @@ steps:
       - 'DOCKER_API_VERSION=1.41'
     args:
       - 'push'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
+      - '${_IMAGE_NAME}:$SHORT_SHA'
 
   # 3. Deploy to GKE
   - name: 'gcr.io/cloud-builders/gke-deploy'
@@ -27,8 +28,9 @@ steps:
       - '-c=k8s-devops'
       - '-l=us-central1-a'
       - '-f=gke-app.yaml'
-      - '-i=us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
+      - '-i=${_IMAGE_NAME}:$SHORT_SHA'
       - '-n=gcp-devops-prod'
 
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp-devops-project/my-app:$SHORT_SHA'
+  - ${_IMAGE_NAME}:$SHORT_SHA
+  - ${_IMAGE_NAME}:latest
